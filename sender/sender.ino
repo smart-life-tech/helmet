@@ -17,16 +17,18 @@ String gesture = "";
 String oldGestureValue = "";
 // Set up the Bluetooth module
 // BLEPeripheral blePeripheral;
-//BLEDevice blePeripheral;
+// BLEDevice blePeripheral;
 // Set up the service and characteristics for the Bluetooth module
-//BLEService service("FFF0");
-//BLECharCharacteristic txCharacteristic("FFF1", BLERead | BLEWrite);
+// BLEService service("FFF0");
+// BLECharCharacteristic txCharacteristic("FFF1", BLERead | BLEWrite);
 // BLECharacteristic gestureCharacteristic = peripheral.characteristic(deviceServiceCharacteristicUuid);
 const char *deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
 const char *deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
 
 void setup()
 {
+  Serial.begin(115200);
+  while (!Serial /* condition */);
   // Initialize the FSRs
   pinMode(frontFSR, INPUT);
   pinMode(backFSR, INPUT);
@@ -43,14 +45,11 @@ void setup()
       ;
   }
 
-
   BLE.setLocalName("Helmet Impact Sensor");
   BLE.advertise();
   // Add the service and characteristics
   // blePeripheral.addAttribute(service);
-  //blePeripheral.addAttribute(txCharacteristic);
-
-
+  // blePeripheral.addAttribute(txCharacteristic);
 }
 
 void loop()
@@ -146,7 +145,8 @@ void controlPeripheral(BLEDevice peripheral)
       char charBuf[len];
       gesture.toCharArray(charBuf, len);
       byte byteBuf[len];
-      for (int i = 0; i < len; i++) {
+      for (int i = 0; i < len; i++)
+      {
         byteBuf[i] = charBuf[i];
       }
       gestureCharacteristic.writeValue(byteBuf, len);
@@ -167,11 +167,11 @@ String gestureDetectection()
   int centerForce = analogRead(centerFSR);
 
   // Read the acceleration data from the accelerometer
-  //sensors_event_t accelEvent;
-  //IMU.getEvent(&accelEvent, LSM9DS1_ACCELEROMETER);
+  // sensors_event_t accelEvent;
+  // IMU.getEvent(&accelEvent, LSM9DS1_ACCELEROMETER);
 
-
-  if (IMU.accelerationAvailable()) {
+  if (IMU.accelerationAvailable())
+  {
     IMU.readAcceleration(x, y, z);
 
     Serial.print(x);
@@ -190,5 +190,6 @@ String gestureDetectection()
                    "Right force: " + String(rightForce) + "\n" +
                    "Center force: " + String(centerForce) + "\n" +
                    "Impact speed: " + String(impactSpeed) + "\n";
+  Serial.println(message);
   return message;
 }
