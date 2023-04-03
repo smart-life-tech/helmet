@@ -152,6 +152,7 @@ void controlPeripheral(BLEDevice peripheral)
       gestureCharacteristic.writeValue(byteBuf, len);
       Serial.println("* Writing value to gesture_type characteristic done!");
       Serial.println(" ");
+      delay(1000);
     }
   }
   Serial.println("- Peripheral device disconnected!");
@@ -165,7 +166,7 @@ String gestureDetectection()
   int leftForce = analogRead(leftFSR);
   int rightForce = analogRead(rightFSR);
   int centerForce = analogRead(centerFSR);
-
+//if (frontForce>30)
   // Read the acceleration data from the accelerometer
   // sensors_event_t accelEvent;
   // IMU.getEvent(&accelEvent, LSM9DS1_ACCELEROMETER);
