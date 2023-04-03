@@ -75,6 +75,7 @@ void loop() {
     while (central.connected()) {
       if (gestureCharacteristic.written()) {
         gesture = reinterpret_cast<const char*>(gestureCharacteristic.value());
+         Serial.println(gestureCharacteristic.value());
         writeGesture(gesture);
       }
     }
@@ -85,6 +86,5 @@ void loop() {
 
 void writeGesture(String gesture) {
   Serial.println("- Characteristic <gesture_type> has changed!");
-
   Serial.println(gesture);
 }
