@@ -28,7 +28,8 @@ const char *deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1
 void setup()
 {
   Serial.begin(115200);
-  while (!Serial /* condition */);
+  while (!Serial /* condition */)
+    ;
   // Initialize the FSRs
   pinMode(frontFSR, INPUT);
   pinMode(backFSR, INPUT);
@@ -160,37 +161,45 @@ void controlPeripheral(BLEDevice peripheral)
 
 String gestureDetectection()
 {
+  String message = "ok";
   // Read the values from the FSRs
   int frontForce = analogRead(frontFSR);
   int backForce = analogRead(backFSR);
   int leftForce = analogRead(leftFSR);
   int rightForce = analogRead(rightFSR);
   int centerForce = analogRead(centerFSR);
-//if (frontForce>30)
-  // Read the acceleration data from the accelerometer
-  // sensors_event_t accelEvent;
-  // IMU.getEvent(&accelEvent, LSM9DS1_ACCELEROMETER);
-
-  if (IMU.accelerationAvailable())
+  if (frontForce > 20 || backForce > 20 || leftForce > 20 || rightForce > 20 || centerForce > 20)
   {
-    IMU.readAcceleration(x, y, z);
+    // Read the acceleration data from the accelerometer
+    // sensors_event_t accelEvent;
+    // IMU.getEvent(&accelEvent, LSM9DS1_ACCELEROMETER);
 
-    Serial.print(x);
-    Serial.print('\t');
-    Serial.print(y);
-    Serial.print('\t');
-    Serial.println(z);
+    if (IMU.accelerationAvailable())
+    {
+      IMU.readAcceleration(x, y, z);
+
+      Serial.print(x);
+      Serial.print('\t');
+      Serial.print(y);
+      Serial.print('\t');
+      Serial.println(z);
+    }
+    // Calculate the force impact speed
+    float impactSpeed = sqrt(x * x + y * y + z * z);
+
+    // Build the message to send over Bluetooth
+    message = "Front force: " + String(frontForce) + "\n" +
+              "Back force: " + String(backForce) + "\n" +
+              "Left force: " + String(leftForce) + "\n" +
+              "Right force: " + String(rightForce) + "\n" +
+              "Center force: " + String(centerForce) + "\n" +
+              "Impact speed: " + String(impactSpeed) + "\n";
+
+    Serial.println(message);
+    return message;
   }
-  // Calculate the force impact speed
-  float impactSpeed = sqrt(x * x + y * y + z * z);
-
-  // Build the message to send over Bluetooth
-  String message = "Front force: " + String(frontForce) + "\n" +
-                   "Back force: " + String(backForce) + "\n" +
-                   "Left force: " + String(leftForce) + "\n" +
-                   "Right force: " + String(rightForce) + "\n" +
-                   "Center force: " + String(centerForce) + "\n" +
-                   "Impact speed: " + String(impactSpeed) + "\n";
-  Serial.println(message);
-  return message;
+  else
+  {
+    return message;
+  }
 }
