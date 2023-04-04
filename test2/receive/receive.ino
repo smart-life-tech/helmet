@@ -14,6 +14,12 @@ BLEFloatCharacteristic analogValue6(deviceServiceCharacteristicUuid, BLERead | B
 
 void setup()
 {
+    Serial.begin(9600);
+    while (!Serial)
+    {
+        delay(1);
+    }
+    Serial.println("Connected to central device!");
     // Initialize analog inputs
     analogReadResolution(12);
     pinMode(A0, INPUT);
@@ -46,9 +52,6 @@ void setup()
     {
         delay(100);
     }
-
-    Serial.begin(9600);
-    Serial.println("Connected to central device!");
 }
 
 void loop()
