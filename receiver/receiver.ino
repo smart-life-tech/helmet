@@ -13,26 +13,28 @@
 
 #include <ArduinoBLE.h>
 
-enum {
-  GESTURE_NONE  = -1,
-  GESTURE_UP    = 0,
-  GESTURE_DOWN  = 1,
-  GESTURE_LEFT  = 2,
+enum
+{
+  GESTURE_NONE = -1,
+  GESTURE_UP = 0,
+  GESTURE_DOWN = 1,
+  GESTURE_LEFT = 2,
   GESTURE_RIGHT = 3
 };
 
-const char* deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
-const char* deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
+const char *deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
+const char *deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
 
 String gesture = "";
 
 BLEService gestureService(deviceServiceUuid);
 BLEByteCharacteristic gestureCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite);
 
-
-void setup() {
+void setup()
+{
   Serial.begin(9600);
-  while (!Serial);
+  while (!Serial)
+    ;
 
   pinMode(LEDR, OUTPUT);
   pinMode(LEDG, OUTPUT);
@@ -44,10 +46,11 @@ void setup() {
   digitalWrite(LEDB, HIGH);
   digitalWrite(LED_BUILTIN, LOW);
 
-
-  if (!BLE.begin()) {
+  if (!BLE.begin())
+  {
     Serial.println("- Starting Bluetooth® Low Energy module failed!");
-    while (1);
+    while (1)
+      ;
   }
 
   BLE.setLocalName("Arduino Nano 33 BLE (Peripheral)");
@@ -61,21 +64,27 @@ void setup() {
   Serial.println(" ");
 }
 
-void loop() {
+void loop()
+{
   BLEDevice central = BLE.central();
   Serial.println("- Discovering central device...");
   delay(500);
 
-  if (central) {
+  if (central)
+  {
     Serial.println("* Connected to central device!");
     Serial.print("* Device MAC address: ");
     Serial.println(central.address());
     Serial.println(" ");
 
-    while (central.connected()) {
-      if (gestureCharacteristic.written()) {
-        gesture = reinterpret_cast<const char*>(gestureCharacteristic.value());
-         Serial.println(gestureCharacteristic.value());
+    while (central.connected())
+    {
+      if (gestureCharacteristic.written())
+      {
+        gesture = reinterpret_cast<const char *>(gestureCharacteristic.value());
+        Serial.print("data recived :");
+        Serial.println(gesture);
+        Serial.println(gestureCharacteristic.value());
         writeGesture(gesture);
       }
     }
@@ -84,7 +93,8 @@ void loop() {
   }
 }
 
-void writeGesture(String gesture) {
+void writeGesture(String gesture)
+{
   Serial.println("- Characteristic <gesture_type> has changed!");
   Serial.println(gesture);
 }
