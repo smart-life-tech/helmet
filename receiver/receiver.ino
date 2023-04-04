@@ -24,11 +24,13 @@ enum
 
 const char *deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
 const char *deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
+const char *deviceServiceCharacteristicUuid2 = "19b10001-e8f2-537e-4f6c-d104768a1215";
 
 String gesture = "";
 
 BLEService gestureService(deviceServiceUuid);
-BLEByteCharacteristic gestureCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite);
+BLECharacteristic gestureCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite,"start");
+//BLEByteCharacteristic gestureCharacteristic2(deviceServiceCharacteristicUuid2, BLERead | BLEWrite);
 
 void setup()
 {
@@ -56,8 +58,9 @@ void setup()
   BLE.setLocalName("Arduino Nano 33 BLE (Peripheral)");
   BLE.setAdvertisedService(gestureService);
   gestureService.addCharacteristic(gestureCharacteristic);
+  //gestureService.addCharacteristic(gestureCharacteristic2);
   BLE.addService(gestureService);
-  gestureCharacteristic.writeValue(-1);
+  //gestureCharacteristic.writeValue(-1);
   BLE.advertise();
 
   Serial.println("Nano 33 BLE (Peripheral Device)");
@@ -84,7 +87,7 @@ void loop()
         gesture = reinterpret_cast<const char *>(gestureCharacteristic.value());
         Serial.print("data recived :");
         Serial.println(gesture);
-        Serial.println(gestureCharacteristic.value());
+        //Serial.println(gestureCharacteristic.value()); 
         writeGesture(gesture);
       }
     }

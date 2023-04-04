@@ -11,6 +11,7 @@ const int leftFSR = A2;
 const int rightFSR = A3;
 const int centerFSR = A4;
 float x, y, z;
+float impactSpeed = 0;
 // Set up the accelerometer
 // Arduino_LSM9DS1 lsm;
 String gesture = "";
@@ -24,10 +25,10 @@ String oldGestureValue = "";
 // BLECharacteristic gestureCharacteristic = peripheral.characteristic(deviceServiceCharacteristicUuid);
 const char *deviceServiceUuid = "19b10000-e8f2-537e-4f6c-d104768a1214";
 const char *deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1214";
-
+//const char *deviceServiceCharacteristicUuid2 = "19b10001-e8f2-537e-4f6c-d104768a1215";
 void setup()
 {
-  Serial.begin(115200);
+  Serial.begin(9600);
   while (!Serial /* condition */)
     ;
   // Initialize the FSRs
@@ -118,7 +119,7 @@ void controlPeripheral(BLEDevice peripheral)
   }
 
   BLECharacteristic gestureCharacteristic = peripheral.characteristic(deviceServiceCharacteristicUuid);
-
+ // BLECharacteristic gestureCharacteristic2 = peripheral.characteristic(deviceServiceCharacteristicUuid2);
   if (!gestureCharacteristic)
   {
     Serial.println("* Peripheral device does not have gesture_type characteristic!");
@@ -151,6 +152,7 @@ void controlPeripheral(BLEDevice peripheral)
         byteBuf[i] = charBuf[i];
       }
       gestureCharacteristic.writeValue(byteBuf, len);
+      //gestureCharacteristic2.writeValue(impactSpeed);
       Serial.println("* Writing value to gesture_type characteristic done!");
       Serial.println(" ");
       delay(1000);
@@ -185,7 +187,7 @@ String gestureDetectection()
       Serial.println(z);
     }
     // Calculate the force impact speed
-    float impactSpeed = sqrt(x * x + y * y + z * z);
+    impactSpeed = sqrt(x * x + y * y + z * z);
 
     // Build the message to send over Bluetooth
     message = "Front force: " + String(frontForce) + "\n" +
