@@ -19,6 +19,7 @@ void setup()
     {
         delay(1);
     }
+    delay(500);
     Serial.println("Connected to central device!");
     // Initialize analog inputs
     analogReadResolution(12);
@@ -87,5 +88,8 @@ void loop()
         Serial.print(value5);
         Serial.print(", ");
         Serial.println(value6);
+    }else {
+        Serial.println("no data");
+        delay(1000);
     }
 }
