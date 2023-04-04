@@ -57,16 +57,16 @@ void setup()
 void loop()
 {
     // Update analog values and notify subscribers
-   /*analogValue1.writeValue(analogRead(A0));
-    analogValue2.writeValue(analogRead(A1));
-    analogValue3.writeValue(analogRead(A2));
-    analogValue4.writeValue(analogRead(A3));
-    analogValue5.writeValue(analogRead(A4));
-    analogValue6.writeValue(analogRead(A5));*/
+    /*analogValue1.writeValue(analogRead(A0));
+     analogValue2.writeValue(analogRead(A1));
+     analogValue3.writeValue(analogRead(A2));
+     analogValue4.writeValue(analogRead(A3));
+     analogValue5.writeValue(analogRead(A4));
+     analogValue6.writeValue(analogRead(A5));*/
     delay(1000);
 
     // Print received values on the serial monitor
-    if (analogValue1.written()||analogValue2.written()||analogValue3.written()||analogValue4.written()||analogValue5.written()||analogValue6.written())
+    if (analogValue1.written() || analogValue2.written() || analogValue3.written() || analogValue4.written() || analogValue5.written() || analogValue6.written())
     {
         float value1 = analogValue1.value();
         float value2 = analogValue2.value();
