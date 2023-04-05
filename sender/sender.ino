@@ -1,4 +1,4 @@
-// Arduino_LSM9DS1 - Version: Latest
+// Arduino_LSM9DS1 - Version: 5.0
 #include <Arduino_LSM9DS1.h>
 
 // #include <Arduino_LSM9DS1.h>
