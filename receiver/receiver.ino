@@ -29,7 +29,7 @@ const char *deviceServiceCharacteristicUuid2 = "19b10001-e8f2-537e-4f6c-d104768a
 String gesture = "";
 
 BLEService gestureService(deviceServiceUuid);
-BLECharacteristic gestureCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite,"start- Characteristic <gesture_type> has changed!- Characteristic <gesture_type> has changed!");
+BLECharacteristic gestureCharacteristic(deviceServiceCharacteristicUuid, BLERead | BLEWrite,"start- Characteristic <gesture_type> has changed!- Characteristic <gesture_type> has changed!Characteristic <gesture_type> has changed!Characteristic <gesture_type> has changed!");
 //BLEByteCharacteristic gestureCharacteristic2(deviceServiceCharacteristicUuid2, BLERead | BLEWrite);
 
 void setup()
