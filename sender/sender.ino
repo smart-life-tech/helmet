@@ -29,8 +29,8 @@ const char *deviceServiceCharacteristicUuid = "19b10001-e8f2-537e-4f6c-d104768a1
 void setup()
 {
   Serial.begin(9600);
-  while (!Serial /* condition */)
-    ;
+//  while (!Serial /* condition */)
+  //  ;
   // Initialize the FSRs
   pinMode(frontFSR, INPUT);
   pinMode(backFSR, INPUT);
